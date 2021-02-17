@@ -18,7 +18,7 @@ import Main from './components/Main'
 const App: () => React$Node = () => {
   return (
     <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 8 }}> 
+      <SafeAreaView style={{ flex: 1 }}> 
         <Main />
       </SafeAreaView>
     </View>

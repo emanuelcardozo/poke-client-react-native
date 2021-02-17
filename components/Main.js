@@ -1,12 +1,15 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
+import List from './List'
+import NavigationButtons from './NavigationButtons'
 
 const PER_PAGE = 5
+let slideDirection = 'left'
 
 function Main(){
 
     const [ pokemons, setPokemons ] = useState([])
-    const [ page, setPage ] = useState(1)
+    const [ page, setPage ] = useState(0)
 
     useEffect(()=>{
         fetch(`https://pokeapi.co/api/v2/pokemon?limit=${ PER_PAGE }&offset=${ page*10 }`).then((res)=> {
@@ -16,18 +19,16 @@ function Main(){
         }).catch( e => console.log("error", e) )
     }, [page])
 
+    function changePage(offset){
+        setPokemons([])
+        setPage(page + offset)
+        slideDirection = offset === 1 ? 'right' : 'left'
+    }
+
     return(
-        <View  style={{ flex: 6, background: "skyblue", justifyContent: "center", alignItems: "center" }}>
-            {
-                pokemons.map((pokemon, i) => {
-                    return <Text key={ i }>
-                        { `${ pokemon.name }: ${ pokemon.url }` }
-                    </Text>
-                })
-            }
-            <TouchableOpacity onPress={ ()=> setPage(page+1) }>
-                <Text>Next</Text>
-            </TouchableOpacity>
+        <View  style={{ flex: 1 }}>
+            <List pokemons={ pokemons } slideDirection={ slideDirection } />
+            <NavigationButtons prevPage={ changePage.bind(null, -1) } nextPage={ changePage.bind(null, 1) } />    
         </View>
     )
 }
