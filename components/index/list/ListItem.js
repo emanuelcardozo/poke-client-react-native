@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, StyleSheet, Text, useWindowDimensions } from 'react-native';
+import { Animated, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-function ListItem({ pokemon, index, slideDirection }){
+function ListItem({ navigation, pokemon, index, slideDirection }){
     const fadeAnim = useRef(new Animated.Value(0)).current
 
     useEffect(()=> {
@@ -29,10 +29,12 @@ function ListItem({ pokemon, index, slideDirection }){
     }
 
     return(
-        <Animated.View style={{ ...style.listItem, ...animation }}>
-            <Text style={ style.text }>
-                { `${ pokemon.name }` }
-            </Text>
+        <Animated.View style={{ ...style.container, ...animation }}>
+            <TouchableOpacity style={ style.button } onPress={ ()=> navigation.navigate('Show', { url: pokemon.url }) }>
+                <Text style={ style.text }>
+                    { `${ pokemon.name }` }
+                </Text>
+            </TouchableOpacity>
         </Animated.View>        
     )
 }
@@ -40,13 +42,11 @@ function ListItem({ pokemon, index, slideDirection }){
 export default ListItem;
 
 const style = StyleSheet.create({
-    listItem: {
+    container: {
         height: 50,
         width: "70%",
         marginVertical: 10,
         backgroundColor: "white", 
-        justifyContent: "center", 
-        alignItems: "center",
         borderRadius: 20,
         shadowColor: "black",
         shadowRadius: 2,
@@ -54,6 +54,13 @@ const style = StyleSheet.create({
         shadowOpacity: 0.5,
         position: "relative",
         elevation: 5
+    },
+    button: {
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center"
     },
     text: {
         fontSize: 16,

@@ -6,7 +6,7 @@ import NavigationButtons from './NavigationButtons'
 const PER_PAGE = 5
 let slideDirection = 'right'
 
-function Index(){
+function Index({ navigation }){
 
     const [ pokemons, setPokemons ] = useState([])
     const [ page, setPage ] = useState(0)
@@ -27,7 +27,7 @@ function Index(){
 
     return(
         <View  style={{ flex: 1 }}>
-            <List pokemons={ pokemons } slideDirection={ slideDirection } />
+            <List pokemons={ pokemons } slideDirection={ slideDirection } navigation={ navigation } />
             <NavigationButtons prevPage={ changePage.bind(null, -1) } nextPage={ changePage.bind(null, 1) } />    
         </View>
     )

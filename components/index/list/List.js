@@ -2,7 +2,7 @@ import React from 'react';
 import ListItem from './ListItem';
 import { StyleSheet, Text, View } from 'react-native';
 
-function List({ pokemons, slideDirection }){
+function List({ pokemons, slideDirection, navigation }){
     if( !pokemons.length )
         return(
             <View style={ style.list }>
@@ -14,7 +14,13 @@ function List({ pokemons, slideDirection }){
         <View style={ style.list }>
         {   
             pokemons.map((pokemon, i) => {
-                return <ListItem key={ i } index={ i } pokemon={ pokemon } slideDirection={ slideDirection } />
+                return <ListItem 
+                    key={ i } 
+                    index={ i } 
+                    pokemon={ pokemon } 
+                    slideDirection={ slideDirection } 
+                    navigation={ navigation }
+                />
             })
         }
         </View>
