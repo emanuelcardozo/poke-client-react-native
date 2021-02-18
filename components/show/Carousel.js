@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 5,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'lightgray',
+    backgroundColor: '#E7F2DC',
     width: '70%',
     shadowColor: 'black',
     shadowOffset: { height: 5, width: 5 },

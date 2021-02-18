@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Carousel from './Carousel'
+import Description from './Description'
+import PokemonService from '../../services/PokemonService'
 
 function Show({ navigation, route } ){
     const [ pokemon, setPokemon ] = useState(null)
     
     useEffect(()=> {
-        fetch(route.params.url).then((res)=> {
-            return res.json()
-        }).then((json)=> {
-            setPokemon(json)
-        }).catch( e => console.log("error", e) )
+        const id = route.params.url.split('pokemon/')[1]
+        PokemonService.getPokemon(id)
+            .then( response => {
+                setPokemon(response)
+            })
     }, [])
 
     if(!pokemon) return <Text>Loading...</Text>
@@ -21,21 +23,7 @@ function Show({ navigation, route } ){
                 <Text style={ style.name }>{ pokemon.name }</Text>
             </View>
             <Carousel sprites={ pokemon.sprites } />
-            <View style={{ ...style.description, ...style.shadowBox }}>
-                <Text>{ pokemon.weight }</Text>
-                <Text>{ pokemon.height }</Text>
-                <View style={{ flexDirection: "row" }}>
-                { 
-                    pokemon.types.map((t, i)=> {
-                        return(
-                            <Text key={ i } style={{ marginHorizontal: 5 }}>
-                                {t.type.name}
-                            </Text>
-                        )
-                    }) 
-                }
-                </View>
-            </View>
+            <Description pokemon={ pokemon } />
         </View>
     )
 };
@@ -46,7 +34,8 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        paddingVertical: "5%"
+        paddingVertical: "5%",
+        backgroundColor: "#9BBFA1"
     },
     name: {
         minHeight: 45,
@@ -56,11 +45,8 @@ const style = StyleSheet.create({
         textTransform: 'uppercase',
         paddingVertical: 10,
     },
-    description: {
-        flex: 5,
-    },
     shadowBox: {
-        backgroundColor: 'lightgray',
+        backgroundColor: '#E7F2DC',
         width: '70%',
         shadowColor: 'black',
         shadowOffset: { height: 5, width: 5 },
@@ -69,5 +55,5 @@ const style = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 25,
-    }
+    },
 })
